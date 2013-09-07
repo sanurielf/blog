@@ -1615,7 +1615,10 @@ pre {
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;El despacho económico de generación ha sido un problema clásico de la Ingeniería Eléctrica. Por lo mismo existen diferentes tipos de despacho, de acuerdo a las consideraciones que se tomen del sistema de potencia, y a su vez también existen muchos métodos de solución.&lt;/p&gt;
 &lt;p&gt;El despacho que se mostrará a continuación es un depacho de generación ideal, donde no existen pérdidas en la red, por lo tanto se tiene un solo nodo generación-carga. El problema es descrito como una problema de optimización no lineal:&lt;/p&gt;
-&lt;p&gt;Minimizar: &lt;span class="math"&gt;\[\sum_{k=1}^n C_k P_{\text{G}k}\]&lt;/span&gt; Sujeto a: &lt;span class="math"&gt;\[\sum_{k=1}^n P_{\text{G}k} = P_\text D\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G k} \leq P_{\text{Gmax} k}, k=1:n\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G k} \geq P_{\text{Gmin} k}, k=1:n\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Minimizar: &lt;span class="math"&gt;\[\sum_{k=1}^n C_k \left( P_{\text{G}k} \right)\]&lt;/span&gt; Sujeto a: &lt;span class="math"&gt;\[\sum_{k=1}^n P_{\text{G}k} = P_\text D\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G k} \leq P_{\text{Gmax} k}, k=1:n\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G k} \geq P_{\text{Gmin} k}, k=1:n\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;La función a optimizar tiene el término &lt;span class="math"&gt;\(C_k\left(P_{\text G k}\right)\)&lt;/span&gt; que no no lineal conveox de segundo grado: &lt;span class="math"&gt;\[C_k\left(P_{\text G k}\right) = P_{\text G k}c_k^2 + P_{\text G k}b_k + c_k\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;La curva que genera dicha función para cada generador se llama curva entrada-salida: &lt;img src="/files/images/curva_entrada_salida.png" title="Curva entrada-salida" alt="Curva entrada-salida" /&gt;&lt;/p&gt;
+&lt;p&gt;La primera restricción forza a que el total de la generación sea la demanda que se tiene que curbrir. Las últimas dos restricciones fijan los límites de operación de cada generador.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
@@ -3440,7 +3443,10 @@ pre {
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;El despacho económico de generación ha sido un problema clásico de la Ingeniería Eléctrica. Por lo mismo existen diferentes tipos de despacho, de acuerdo a las consideraciones que se tomen del sistema de potencia, y a su vez también existen muchos métodos de solución.&lt;/p&gt;
 &lt;p&gt;El despacho que se mostrará a continuación es un depacho de generación ideal, donde no existen pérdidas en la red, por lo tanto se tiene un solo nodo generación-carga. El problema es descrito como una problema de optimización no lineal:&lt;/p&gt;
-&lt;p&gt;Minimizar: &lt;span class="math"&gt;\[\sum_{k=1}^n C_k P_{\text{G}k}\]&lt;/span&gt; Sujeto a: &lt;span class="math"&gt;\[\sum_{k=1}^n P_{\text{G}k} = P_\text D\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G k} \leq P_{\text{Gmax} k}, k=1:n\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G k} \geq P_{\text{Gmin} k}, k=1:n\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Minimizar: &lt;span class="math"&gt;\[\sum_{k=1}^n C_k \left( P_{\text{G}k} \right)\]&lt;/span&gt; Sujeto a: &lt;span class="math"&gt;\[\sum_{k=1}^n P_{\text{G}k} = P_\text D\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G k} \leq P_{\text{Gmax} k}, k=1:n\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G k} \geq P_{\text{Gmin} k}, k=1:n\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;La función a optimizar tiene el término &lt;span class="math"&gt;\(C_k\left(P_{\text G k}\right)\)&lt;/span&gt; que no no lineal conveox de segundo grado: &lt;span class="math"&gt;\[C_k\left(P_{\text G k}\right) = P_{\text G k}c_k^2 + P_{\text G k}b_k + c_k\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;La curva que genera dicha función para cada generador se llama curva entrada-salida: &lt;img src="/files/images/curva_entrada_salida.png" title="Curva entrada-salida" alt="Curva entrada-salida" /&gt;&lt;/p&gt;
+&lt;p&gt;La primera restricción forza a que el total de la generación sea la demanda que se tiene que curbrir. Las últimas dos restricciones fijan los límites de operación de cada generador.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
