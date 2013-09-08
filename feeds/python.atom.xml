@@ -1616,14 +1616,64 @@ pre {
 &lt;p&gt;El despacho económico de generación ha sido un problema clásico de la Ingeniería Eléctrica. Por lo mismo existen diferentes tipos de despacho, de acuerdo a las consideraciones que se tomen del sistema de potencia, y a su vez también existen muchos métodos de solución.&lt;/p&gt;
 &lt;p&gt;El despacho que se mostrará a continuación es un depacho de generación ideal, donde no existen pérdidas en la red, por lo tanto se tiene un solo nodo generación-carga. El problema es descrito como una problema de optimización no lineal:&lt;/p&gt;
 &lt;p&gt;Minimizar: &lt;span class="math"&gt;\[\sum_{k=1}^n C_k \left( P_{\text{G}k} \right)\]&lt;/span&gt; Sujeto a: &lt;span class="math"&gt;\[\sum_{k=1}^n P_{\text{G}k} = P_\text D\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G k} \leq P_{\text{Gmax} k}, k=1:n\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G k} \geq P_{\text{Gmin} k}, k=1:n\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;La función a optimizar tiene el término &lt;span class="math"&gt;\(C_k\left(P_{\text G k}\right)\)&lt;/span&gt; que no no lineal conveox de segundo grado: &lt;span class="math"&gt;\[C_k\left(P_{\text G k}\right) = P_{\text G k}c_k^2 + P_{\text G k}b_k + c_k\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;La curva que genera dicha función para cada generador se llama curva entrada-salida: &lt;img src="/files/images/curva_entrada_salida.png" title="Curva entrada-salida" alt="Curva entrada-salida" /&gt;&lt;/p&gt;
+&lt;p&gt;La función a optimizar tiene el término &lt;span class="math"&gt;\(C_k\left(P_{\text G k}\right)\)&lt;/span&gt; no lineal convexo de segundo grado: &lt;span class="math"&gt;\[C_k\left(P_{\text G k}\right) = P_{\text G k}c_k^2 + P_{\text G k}b_k + a_k\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Para una mejor comprehensión de cómo se obtiene esta ecuación pueden consultar el libro de &lt;a href="http://books.google.com.mx/books?id=ItuC5oZ-16QC&amp;amp;lpg=PP1&amp;amp;dq=wollenberg&amp;amp;hl=es&amp;amp;pg=PP1#v=onepage&amp;amp;q=wollenberg&amp;amp;f=false" title="Libro Wollenberg"&gt;Wollenberg&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;La primera restricción forza a que el total de la generación sea la demanda que se tiene que curbrir. Las últimas dos restricciones fijan los límites de operación de cada generador.&lt;/p&gt;
+&lt;h1 id="ejemplo"&gt;Ejemplo&lt;/h1&gt;
+&lt;p&gt;El ejemplo a resolver es un sistema de tres máquinas con los siguientes coeficientes de la función de costo:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;Unidad&lt;/th&gt;
+&lt;th align="left"&gt;a&lt;/th&gt;
+&lt;th align="left"&gt;b&lt;/th&gt;
+&lt;th align="left"&gt;c&lt;/th&gt;
+&lt;th align="left"&gt;&lt;span class="math"&gt;\(P_\text{Gmin}\)&lt;/span&gt;&lt;/th&gt;
+&lt;th align="left"&gt;&lt;span class="math"&gt;\(P_\text{Gmax}\)&lt;/span&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;G1&lt;/td&gt;
+&lt;td align="left"&gt;561&lt;/td&gt;
+&lt;td align="left"&gt;7.92&lt;/td&gt;
+&lt;td align="left"&gt;0.00154&lt;/td&gt;
+&lt;td align="left"&gt;150 MW&lt;/td&gt;
+&lt;td align="left"&gt;600 MW&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;G2&lt;/td&gt;
+&lt;td align="left"&gt;310&lt;/td&gt;
+&lt;td align="left"&gt;7.8&lt;/td&gt;
+&lt;td align="left"&gt;0.002&lt;/td&gt;
+&lt;td align="left"&gt;100 MW&lt;/td&gt;
+&lt;td align="left"&gt;400 MW&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;G3&lt;/td&gt;
+&lt;td align="left"&gt;78&lt;/td&gt;
+&lt;td align="left"&gt;8&lt;/td&gt;
+&lt;td align="left"&gt;0.005&lt;/td&gt;
+&lt;td align="left"&gt;50 MW&lt;/td&gt;
+&lt;td align="left"&gt;200 MW&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Donde la demanda que se tiene que satisfacer es de 850 MW.&lt;/p&gt;
+&lt;p&gt;El problema de optimización para este caso en particular sería:&lt;/p&gt;
+&lt;p&gt;Minimizar&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\[ 0.00154 P_{\text G 1}^2 + 7.92 P_{\text G 1} + 561 + 0.002 P_{\text G 2}^2 + 7.8 P_{\text G 2} + 310 + 0.005 P_{\text G 3}^2 + 8P_{\text G 3} + 78\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Sujeto a:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\[P_{\text G 1} \leq 600\]&lt;/span&gt; &lt;span class="math"&gt;\[-P_{\text G 1} \leq -150\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G 2} \leq 400\]&lt;/span&gt; &lt;span class="math"&gt;\[-P_{\text G 2} \leq -100\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G 3} \leq 200\]&lt;/span&gt; &lt;span class="math"&gt;\[-P_{\text G 3} \leq -50\]&lt;/span&gt; &lt;span class="math"&gt;\[ P_{\text G 1} + P_{\text G 2} + P_{\text G 3} = 850\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Para la solución de este tipo de problemas existen varios métodos. Uno que personalmente he implementado de forma sencilla es utilizando la función Lagrangiana descrito en &lt;a href="http://books.google.com.mx/books?id=rJ5d7DW2t4UC&amp;amp;lpg=PP1&amp;amp;dq=mathematics%20for%20economists%20Malcolm%20Pemberton&amp;amp;hl=es&amp;amp;pg=PP1#v=onepage&amp;amp;q=mathematics%20for%20economists%20Malcolm%20Pemberton&amp;amp;f=false" title="Libro"&gt;Mathematics for Economists&lt;/a&gt;. Para este ejemplo no nos vamos a complicar y vamos a utilizar un &amp;quot;solver&amp;quot; ya hecho. En este caso la librería que se va a usar es &lt;a href="http://cvxopt.org/"&gt;CVXOPT&lt;/a&gt;, la cual es una librería de optimización convexa realmente buena. Yo la he usado mucho para el manejo matricial ya que tiene interacción directa con algunas librerías de álgebra lineal (LAPACK, BLAS, UMFPACK) y en muchos casos el computo matricial ha sido más rápido que numpy/scipy.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Comenzamos importando la librería necesaria:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[59]:
+In&amp;nbsp;[1]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;cvxopt&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;solvers&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;spdiag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;spmatrix&lt;/span&gt;
@@ -1636,28 +1686,13 @@ In&amp;nbsp;[59]:
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[60]:
+In&amp;nbsp;[2]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
-&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="k"&gt;qtconsole&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing code_cell vbox"&gt;
-&lt;div class="input hbox"&gt;
-&lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[75]:
-&lt;/div&gt;
-&lt;div class="input_area box-flex1"&gt;
-&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;510&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;310&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;78&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mf"&gt;7.2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;7.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mf"&gt;0.0014&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.002&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.005&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*=&lt;/span&gt;&lt;span class="mf"&gt;1.1&lt;/span&gt;
-&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*=&lt;/span&gt;&lt;span class="mf"&gt;1.1&lt;/span&gt;
-&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*=&lt;/span&gt;&lt;span class="mf"&gt;1.1&lt;/span&gt;
+&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;561&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;310&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;78&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mf"&gt;7.92&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;7.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mf"&gt;0.00154&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.002&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.005&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c"&gt;# numero de generadores&lt;/span&gt;
 &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1665,10 +1700,13 @@ In&amp;nbsp;[75]:
 &lt;/div&gt;
 
 &lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Definimos límites y la potencia demandada:&lt;/p&gt;
+&lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[76]:
+In&amp;nbsp;[3]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="n"&gt;Pgmax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;600&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;400&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
@@ -1680,47 +1718,58 @@ In&amp;nbsp;[76]:
 &lt;/div&gt;
 
 &lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Teniendo los datos definidos en forma matricial necesitamos expresar el problema de la forma que utiliza nuestro solver de optimización cuadrática:&lt;br /&gt;Minimizar: &lt;span class="math"&gt;\[f(\mathbf{x}) = \tfrac{1}{2} \mathbf{x}^T Q\mathbf{x} + \mathbf{p}^T \mathbf{x}\]&lt;/span&gt; Sujeto a: &lt;span class="math"&gt;\[ A\mathbf{x} \leq \mathbf b\]&lt;/span&gt; &lt;span class="math"&gt;\[E\mathbf{x} = \mathbf d \]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;El primer término interesante es la matriz &lt;span class="math"&gt;\(Q\)&lt;/span&gt;, que es una matriz Hessiana de la función de costo. Por lo tanto se debe derivar cada función de costo de las variables (&lt;span class="math"&gt;\(P_\text{G k}\)&lt;/span&gt;). Dado que no existen combinaciones entre diferentes variables, la matriz &lt;span class="math"&gt;\(Q\)&lt;/span&gt; es diagonal y se calcula:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\[Q = 2 * \left[ c \right]\]&lt;/span&gt; donde:&lt;br /&gt;&lt;span class="math"&gt;\(\left[ c \right]\)&lt;/span&gt; es una matriz diagonal con el vector &lt;span class="math"&gt;\(c\)&lt;/span&gt; sobre la diagonal.&lt;/p&gt;
+&lt;p&gt;El vector &lt;span class="math"&gt;\(\mathbf{p}\)&lt;/span&gt; son los coeficientes de los términos de primer orden de la función de costo. Para nuestro caso es:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\[\mathbf{p} = b\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;La matriz &lt;span class="math"&gt;\(A\)&lt;/span&gt; es la matriz de restricciones de desigualdad, que para nuestro caso se va a encargar de fijar los límites de generación: &lt;span class="math"&gt;\[A= \left[ I ; -I \right]\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;El vector &lt;span class="math"&gt;\(\mathbf b\)&lt;/span&gt; contiene los valores a fijar en las desigualdades. Para nuestro caso son los límites de generación &lt;span class="math"&gt;\[\mathbf b = \left[ P_\text{Gmax}; P_\text{Gmin} \right]\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Por último se definen las restricciones de igualdad, en las cuales especificamos que la potencia generada debe ser igual a la potencia demandada:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\[E =\left[ 1 1 1\right]\]&lt;/span&gt; &lt;span class="math"&gt;\[\mathbf d = \left[ 850 \right] \]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[77]:
+In&amp;nbsp;[4]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
-&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="c"&gt;# Arreglode maquinas&lt;/span&gt;
+&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="c"&gt;# Conjunto de maquinas&lt;/span&gt;
 &lt;span class="n"&gt;maq&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="c"&gt;# Matriz Hessiana&lt;/span&gt;
 &lt;span class="n"&gt;Q&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;spdiag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c"&gt;# Terminos de primer orden&lt;/span&gt;
 &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;
-&lt;span class="c"&gt;# Restriccion para forzar a que sean positivos&lt;/span&gt;
-&lt;span class="n"&gt;G1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="n"&gt;spmatrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maq&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maq&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;h1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c"&gt;# Restriccion para forzar el limite superior&lt;/span&gt;
-&lt;span class="n"&gt;G2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;spmatrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maq&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maq&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;h2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Pgmax&lt;/span&gt;
+&lt;span class="n"&gt;A1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;spmatrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maq&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maq&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;bb1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Pgmax&lt;/span&gt;
 &lt;span class="c"&gt;# Restriccion para forzar el limite inferior&lt;/span&gt;
-&lt;span class="n"&gt;G3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;G2&lt;/span&gt;
-&lt;span class="n"&gt;h3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Pgmin&lt;/span&gt;
-&lt;span class="c"&gt;# Se juntan todas las restricciones&lt;/span&gt;
-&lt;span class="n"&gt;G&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;G1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;G2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;G3&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;h1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-
-&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Pd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;A2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;A1&lt;/span&gt;
+&lt;span class="n"&gt;bb2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Pgmin&lt;/span&gt;
+&lt;span class="c"&gt;# Se juntan todas las restricciones de desigualdad&lt;/span&gt;
+&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;A1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;bb&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;bb1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bb2&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c"&gt;# Restriccion de igualdad&lt;/span&gt;
+&lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Pd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
 
 &lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Resolvemos usando QP (quadratic programming) de CVXOPT:&lt;/p&gt;
+&lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[78]:
+In&amp;nbsp;[5]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
-&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="n"&gt;sol&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;solvers&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Q&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="n"&gt;sol&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;solvers&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Q&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;E&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1734,13 +1783,15 @@ In&amp;nbsp;[78]:
 &lt;div class="box-flex1 output_subarea output_stream output_stdout"&gt;
 &lt;pre&gt;
      pcost       dcost       gap    pres   dres
- 0:  7.3201e+03 -3.3872e+05  4e+05  1e-01  6e+01
- 1:  7.2813e+03 -8.2900e+03  2e+04  1e-03  6e-01
- 2:  7.2808e+03  6.7863e+03  5e+02  4e-05  2e-02
- 3:  7.2464e+03  7.0600e+03  2e+02  2e-16  4e-16
- 4:  7.2381e+03  7.2227e+03  2e+01  2e-16  3e-17
- 5:  7.2380e+03  7.2378e+03  2e-01  2e-16  5e-17
- 6:  7.2380e+03  7.2380e+03  2e-03  2e-16  1e-16
+ 0:  7.2896e+03 -2.1278e+05  2e+05  3e-02  1e-14
+ 1:  7.2809e+03  4.3381e+03  3e+03  3e-04  7e-15
+ 2:  7.2801e+03  6.8779e+03  4e+02  4e-05  1e-15
+ 3:  7.3993e+03  6.3104e+03  1e+03  2e-05  6e-16
+ 4:  7.2817e+03  6.8744e+03  4e+02  1e-16  2e-16
+ 5:  7.2399e+03  7.1891e+03  5e+01  1e-16  2e-16
+ 6:  7.2380e+03  7.2361e+03  2e+00  2e-16  9e-17
+ 7:  7.2380e+03  7.2379e+03  2e-02  1e-16  2e-16
+ 8:  7.2380e+03  7.2380e+03  2e-04  3e-16  1e-16
 Optimal solution found.
 
 &lt;/pre&gt;
@@ -1751,10 +1802,13 @@ Optimal solution found.
 &lt;/div&gt;
 
 &lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Imprimimos la solución&lt;/p&gt;
+&lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[79]:
+In&amp;nbsp;[6]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;sol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -1783,50 +1837,31 @@ In&amp;nbsp;[79]:
 &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;div class="cell border-box-sizing code_cell vbox"&gt;
-&lt;div class="input hbox"&gt;
-&lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[48]:
-&lt;/div&gt;
-&lt;div class="input_area box-flex1"&gt;
-&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class="vbox output_wrapper"&gt;
-&lt;div class="output vbox"&gt;
-
-
-&lt;div class="hbox output_area"&gt;&lt;div class="prompt output_prompt"&gt;
-    Out[48]:&lt;/div&gt;
-&lt;div class="box-flex1 output_subarea output_pyout"&gt;
-
-
-&lt;pre&gt;
-850.0000000000001
-&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing code_cell vbox"&gt;
-&lt;div class="input hbox"&gt;
-&lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[]:
-&lt;/div&gt;
-&lt;div class="input_area box-flex1"&gt;
-&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;La cual nos indica que el despacho óptimo de generación queda de la siguiente forma:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;Unidad&lt;/th&gt;
+&lt;th align="left"&gt;Potencia&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;G1&lt;/td&gt;
+&lt;td align="left"&gt;398 MW&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;G2&lt;/td&gt;
+&lt;td align="left"&gt;337 MW&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;G3&lt;/td&gt;
+&lt;td align="left"&gt;115 MW&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Espero les haya servido el ejemplo. En sí el problema es muy sencillo, lo interesante es saberlo expresar en terminos de un problema de optmización no lineal. En una futura publicación añadiré el efecto que tienen las pérdidas por transmisión.&lt;/p&gt;
 &lt;/div&gt;</summary><category term="cvxopt"></category><category term="power systems"></category><category term="python"></category><category term="optimzation"></category></entry><entry><title>Despacho económico de potencia activa utilizando QP</title><link href="http://sanurielf.github.io/blog/despacho-economico-de-potencia-activa-utilizando-qp.html" rel="alternate"></link><updated>2013-09-07T00:00:00+02:00</updated><author><name>Uriel Sandoval</name></author><id>tag:sanurielf.github.io/blog,2013-09-07:despacho-economico-de-potencia-activa-utilizando-qp.html</id><summary type="html">&lt;style type="text/css"&gt;.clearfix{*zoom:1;}.clearfix:before,.clearfix:after{display:table;content:"";line-height:0;}
 .clearfix:after{clear:both;}
 .hide-text{font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0;}
@@ -3444,14 +3479,64 @@ pre {
 &lt;p&gt;El despacho económico de generación ha sido un problema clásico de la Ingeniería Eléctrica. Por lo mismo existen diferentes tipos de despacho, de acuerdo a las consideraciones que se tomen del sistema de potencia, y a su vez también existen muchos métodos de solución.&lt;/p&gt;
 &lt;p&gt;El despacho que se mostrará a continuación es un depacho de generación ideal, donde no existen pérdidas en la red, por lo tanto se tiene un solo nodo generación-carga. El problema es descrito como una problema de optimización no lineal:&lt;/p&gt;
 &lt;p&gt;Minimizar: &lt;span class="math"&gt;\[\sum_{k=1}^n C_k \left( P_{\text{G}k} \right)\]&lt;/span&gt; Sujeto a: &lt;span class="math"&gt;\[\sum_{k=1}^n P_{\text{G}k} = P_\text D\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G k} \leq P_{\text{Gmax} k}, k=1:n\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G k} \geq P_{\text{Gmin} k}, k=1:n\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;La función a optimizar tiene el término &lt;span class="math"&gt;\(C_k\left(P_{\text G k}\right)\)&lt;/span&gt; que no no lineal conveox de segundo grado: &lt;span class="math"&gt;\[C_k\left(P_{\text G k}\right) = P_{\text G k}c_k^2 + P_{\text G k}b_k + c_k\]&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;La curva que genera dicha función para cada generador se llama curva entrada-salida: &lt;img src="/files/images/curva_entrada_salida.png" title="Curva entrada-salida" alt="Curva entrada-salida" /&gt;&lt;/p&gt;
+&lt;p&gt;La función a optimizar tiene el término &lt;span class="math"&gt;\(C_k\left(P_{\text G k}\right)\)&lt;/span&gt; no lineal convexo de segundo grado: &lt;span class="math"&gt;\[C_k\left(P_{\text G k}\right) = P_{\text G k}c_k^2 + P_{\text G k}b_k + a_k\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Para una mejor comprehensión de cómo se obtiene esta ecuación pueden consultar el libro de &lt;a href="http://books.google.com.mx/books?id=ItuC5oZ-16QC&amp;amp;lpg=PP1&amp;amp;dq=wollenberg&amp;amp;hl=es&amp;amp;pg=PP1#v=onepage&amp;amp;q=wollenberg&amp;amp;f=false" title="Libro Wollenberg"&gt;Wollenberg&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;La primera restricción forza a que el total de la generación sea la demanda que se tiene que curbrir. Las últimas dos restricciones fijan los límites de operación de cada generador.&lt;/p&gt;
+&lt;h1 id="ejemplo"&gt;Ejemplo&lt;/h1&gt;
+&lt;p&gt;El ejemplo a resolver es un sistema de tres máquinas con los siguientes coeficientes de la función de costo:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;Unidad&lt;/th&gt;
+&lt;th align="left"&gt;a&lt;/th&gt;
+&lt;th align="left"&gt;b&lt;/th&gt;
+&lt;th align="left"&gt;c&lt;/th&gt;
+&lt;th align="left"&gt;&lt;span class="math"&gt;\(P_\text{Gmin}\)&lt;/span&gt;&lt;/th&gt;
+&lt;th align="left"&gt;&lt;span class="math"&gt;\(P_\text{Gmax}\)&lt;/span&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;G1&lt;/td&gt;
+&lt;td align="left"&gt;561&lt;/td&gt;
+&lt;td align="left"&gt;7.92&lt;/td&gt;
+&lt;td align="left"&gt;0.00154&lt;/td&gt;
+&lt;td align="left"&gt;150 MW&lt;/td&gt;
+&lt;td align="left"&gt;600 MW&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;G2&lt;/td&gt;
+&lt;td align="left"&gt;310&lt;/td&gt;
+&lt;td align="left"&gt;7.8&lt;/td&gt;
+&lt;td align="left"&gt;0.002&lt;/td&gt;
+&lt;td align="left"&gt;100 MW&lt;/td&gt;
+&lt;td align="left"&gt;400 MW&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;G3&lt;/td&gt;
+&lt;td align="left"&gt;78&lt;/td&gt;
+&lt;td align="left"&gt;8&lt;/td&gt;
+&lt;td align="left"&gt;0.005&lt;/td&gt;
+&lt;td align="left"&gt;50 MW&lt;/td&gt;
+&lt;td align="left"&gt;200 MW&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Donde la demanda que se tiene que satisfacer es de 850 MW.&lt;/p&gt;
+&lt;p&gt;El problema de optimización para este caso en particular sería:&lt;/p&gt;
+&lt;p&gt;Minimizar&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\[ 0.00154 P_{\text G 1}^2 + 7.92 P_{\text G 1} + 561 + 0.002 P_{\text G 2}^2 + 7.8 P_{\text G 2} + 310 + 0.005 P_{\text G 3}^2 + 8P_{\text G 3} + 78\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Sujeto a:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\[P_{\text G 1} \leq 600\]&lt;/span&gt; &lt;span class="math"&gt;\[-P_{\text G 1} \leq -150\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G 2} \leq 400\]&lt;/span&gt; &lt;span class="math"&gt;\[-P_{\text G 2} \leq -100\]&lt;/span&gt; &lt;span class="math"&gt;\[P_{\text G 3} \leq 200\]&lt;/span&gt; &lt;span class="math"&gt;\[-P_{\text G 3} \leq -50\]&lt;/span&gt; &lt;span class="math"&gt;\[ P_{\text G 1} + P_{\text G 2} + P_{\text G 3} = 850\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Para la solución de este tipo de problemas existen varios métodos. Uno que personalmente he implementado de forma sencilla es utilizando la función Lagrangiana descrito en &lt;a href="http://books.google.com.mx/books?id=rJ5d7DW2t4UC&amp;amp;lpg=PP1&amp;amp;dq=mathematics%20for%20economists%20Malcolm%20Pemberton&amp;amp;hl=es&amp;amp;pg=PP1#v=onepage&amp;amp;q=mathematics%20for%20economists%20Malcolm%20Pemberton&amp;amp;f=false" title="Libro"&gt;Mathematics for Economists&lt;/a&gt;. Para este ejemplo no nos vamos a complicar y vamos a utilizar un &amp;quot;solver&amp;quot; ya hecho. En este caso la librería que se va a usar es &lt;a href="http://cvxopt.org/"&gt;CVXOPT&lt;/a&gt;, la cual es una librería de optimización convexa realmente buena. Yo la he usado mucho para el manejo matricial ya que tiene interacción directa con algunas librerías de álgebra lineal (LAPACK, BLAS, UMFPACK) y en muchos casos el computo matricial ha sido más rápido que numpy/scipy.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Comenzamos importando la librería necesaria:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[59]:
+In&amp;nbsp;[1]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;cvxopt&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;solvers&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;spdiag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;spmatrix&lt;/span&gt;
@@ -3464,28 +3549,13 @@ In&amp;nbsp;[59]:
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[60]:
+In&amp;nbsp;[2]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
-&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="k"&gt;qtconsole&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing code_cell vbox"&gt;
-&lt;div class="input hbox"&gt;
-&lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[75]:
-&lt;/div&gt;
-&lt;div class="input_area box-flex1"&gt;
-&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;510&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;310&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;78&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mf"&gt;7.2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;7.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mf"&gt;0.0014&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.002&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.005&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*=&lt;/span&gt;&lt;span class="mf"&gt;1.1&lt;/span&gt;
-&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*=&lt;/span&gt;&lt;span class="mf"&gt;1.1&lt;/span&gt;
-&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*=&lt;/span&gt;&lt;span class="mf"&gt;1.1&lt;/span&gt;
+&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;561&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;310&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;78&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mf"&gt;7.92&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;7.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mf"&gt;0.00154&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.002&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.005&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c"&gt;# numero de generadores&lt;/span&gt;
 &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -3493,10 +3563,13 @@ In&amp;nbsp;[75]:
 &lt;/div&gt;
 
 &lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Definimos límites y la potencia demandada:&lt;/p&gt;
+&lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[76]:
+In&amp;nbsp;[3]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="n"&gt;Pgmax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;600&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;400&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
@@ -3508,47 +3581,58 @@ In&amp;nbsp;[76]:
 &lt;/div&gt;
 
 &lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Teniendo los datos definidos en forma matricial necesitamos expresar el problema de la forma que utiliza nuestro solver de optimización cuadrática:&lt;br /&gt;Minimizar: &lt;span class="math"&gt;\[f(\mathbf{x}) = \tfrac{1}{2} \mathbf{x}^T Q\mathbf{x} + \mathbf{p}^T \mathbf{x}\]&lt;/span&gt; Sujeto a: &lt;span class="math"&gt;\[ A\mathbf{x} \leq \mathbf b\]&lt;/span&gt; &lt;span class="math"&gt;\[E\mathbf{x} = \mathbf d \]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;El primer término interesante es la matriz &lt;span class="math"&gt;\(Q\)&lt;/span&gt;, que es una matriz Hessiana de la función de costo. Por lo tanto se debe derivar cada función de costo de las variables (&lt;span class="math"&gt;\(P_\text{G k}\)&lt;/span&gt;). Dado que no existen combinaciones entre diferentes variables, la matriz &lt;span class="math"&gt;\(Q\)&lt;/span&gt; es diagonal y se calcula:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\[Q = 2 * \left[ c \right]\]&lt;/span&gt; donde:&lt;br /&gt;&lt;span class="math"&gt;\(\left[ c \right]\)&lt;/span&gt; es una matriz diagonal con el vector &lt;span class="math"&gt;\(c\)&lt;/span&gt; sobre la diagonal.&lt;/p&gt;
+&lt;p&gt;El vector &lt;span class="math"&gt;\(\mathbf{p}\)&lt;/span&gt; son los coeficientes de los términos de primer orden de la función de costo. Para nuestro caso es:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\[\mathbf{p} = b\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;La matriz &lt;span class="math"&gt;\(A\)&lt;/span&gt; es la matriz de restricciones de desigualdad, que para nuestro caso se va a encargar de fijar los límites de generación: &lt;span class="math"&gt;\[A= \left[ I ; -I \right]\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;El vector &lt;span class="math"&gt;\(\mathbf b\)&lt;/span&gt; contiene los valores a fijar en las desigualdades. Para nuestro caso son los límites de generación &lt;span class="math"&gt;\[\mathbf b = \left[ P_\text{Gmax}; P_\text{Gmin} \right]\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Por último se definen las restricciones de igualdad, en las cuales especificamos que la potencia generada debe ser igual a la potencia demandada:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\[E =\left[ 1 1 1\right]\]&lt;/span&gt; &lt;span class="math"&gt;\[\mathbf d = \left[ 850 \right] \]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[77]:
+In&amp;nbsp;[4]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
-&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="c"&gt;# Arreglode maquinas&lt;/span&gt;
+&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="c"&gt;# Conjunto de maquinas&lt;/span&gt;
 &lt;span class="n"&gt;maq&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="c"&gt;# Matriz Hessiana&lt;/span&gt;
 &lt;span class="n"&gt;Q&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;spdiag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c"&gt;# Terminos de primer orden&lt;/span&gt;
 &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;
-&lt;span class="c"&gt;# Restriccion para forzar a que sean positivos&lt;/span&gt;
-&lt;span class="n"&gt;G1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="n"&gt;spmatrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maq&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maq&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;h1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c"&gt;# Restriccion para forzar el limite superior&lt;/span&gt;
-&lt;span class="n"&gt;G2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;spmatrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maq&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maq&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;h2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Pgmax&lt;/span&gt;
+&lt;span class="n"&gt;A1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;spmatrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maq&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maq&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;bb1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Pgmax&lt;/span&gt;
 &lt;span class="c"&gt;# Restriccion para forzar el limite inferior&lt;/span&gt;
-&lt;span class="n"&gt;G3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;G2&lt;/span&gt;
-&lt;span class="n"&gt;h3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Pgmin&lt;/span&gt;
-&lt;span class="c"&gt;# Se juntan todas las restricciones&lt;/span&gt;
-&lt;span class="n"&gt;G&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;G1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;G2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;G3&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;h1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-
-&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Pd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;A2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;A1&lt;/span&gt;
+&lt;span class="n"&gt;bb2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Pgmin&lt;/span&gt;
+&lt;span class="c"&gt;# Se juntan todas las restricciones de desigualdad&lt;/span&gt;
+&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;A1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;bb&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;bb1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bb2&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c"&gt;# Restriccion de igualdad&lt;/span&gt;
+&lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;tc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Pd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
 
 &lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Resolvemos usando QP (quadratic programming) de CVXOPT:&lt;/p&gt;
+&lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[78]:
+In&amp;nbsp;[5]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
-&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="n"&gt;sol&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;solvers&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Q&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="n"&gt;sol&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;solvers&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Q&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;E&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -3562,13 +3646,15 @@ In&amp;nbsp;[78]:
 &lt;div class="box-flex1 output_subarea output_stream output_stdout"&gt;
 &lt;pre&gt;
      pcost       dcost       gap    pres   dres
- 0:  7.3201e+03 -3.3872e+05  4e+05  1e-01  6e+01
- 1:  7.2813e+03 -8.2900e+03  2e+04  1e-03  6e-01
- 2:  7.2808e+03  6.7863e+03  5e+02  4e-05  2e-02
- 3:  7.2464e+03  7.0600e+03  2e+02  2e-16  4e-16
- 4:  7.2381e+03  7.2227e+03  2e+01  2e-16  3e-17
- 5:  7.2380e+03  7.2378e+03  2e-01  2e-16  5e-17
- 6:  7.2380e+03  7.2380e+03  2e-03  2e-16  1e-16
+ 0:  7.2896e+03 -2.1278e+05  2e+05  3e-02  1e-14
+ 1:  7.2809e+03  4.3381e+03  3e+03  3e-04  7e-15
+ 2:  7.2801e+03  6.8779e+03  4e+02  4e-05  1e-15
+ 3:  7.3993e+03  6.3104e+03  1e+03  2e-05  6e-16
+ 4:  7.2817e+03  6.8744e+03  4e+02  1e-16  2e-16
+ 5:  7.2399e+03  7.1891e+03  5e+01  1e-16  2e-16
+ 6:  7.2380e+03  7.2361e+03  2e+00  2e-16  9e-17
+ 7:  7.2380e+03  7.2379e+03  2e-02  1e-16  2e-16
+ 8:  7.2380e+03  7.2380e+03  2e-04  3e-16  1e-16
 Optimal solution found.
 
 &lt;/pre&gt;
@@ -3579,10 +3665,13 @@ Optimal solution found.
 &lt;/div&gt;
 
 &lt;/div&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Imprimimos la solución&lt;/p&gt;
+&lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell vbox"&gt;
 &lt;div class="input hbox"&gt;
 &lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[79]:
+In&amp;nbsp;[6]:
 &lt;/div&gt;
 &lt;div class="input_area box-flex1"&gt;
 &lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;sol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -3611,48 +3700,29 @@ In&amp;nbsp;[79]:
 &lt;/div&gt;
 
 &lt;/div&gt;
-&lt;div class="cell border-box-sizing code_cell vbox"&gt;
-&lt;div class="input hbox"&gt;
-&lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[48]:
-&lt;/div&gt;
-&lt;div class="input_area box-flex1"&gt;
-&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class="vbox output_wrapper"&gt;
-&lt;div class="output vbox"&gt;
-
-
-&lt;div class="hbox output_area"&gt;&lt;div class="prompt output_prompt"&gt;
-    Out[48]:&lt;/div&gt;
-&lt;div class="box-flex1 output_subarea output_pyout"&gt;
-
-
-&lt;pre&gt;
-850.0000000000001
-&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing code_cell vbox"&gt;
-&lt;div class="input hbox"&gt;
-&lt;div class="prompt input_prompt"&gt;
-In&amp;nbsp;[]:
-&lt;/div&gt;
-&lt;div class="input_area box-flex1"&gt;
-&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;La cual nos indica que el despacho óptimo de generación queda de la siguiente forma:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;Unidad&lt;/th&gt;
+&lt;th align="left"&gt;Potencia&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;G1&lt;/td&gt;
+&lt;td align="left"&gt;398 MW&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;G2&lt;/td&gt;
+&lt;td align="left"&gt;337 MW&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;G3&lt;/td&gt;
+&lt;td align="left"&gt;115 MW&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Espero les haya servido el ejemplo. En sí el problema es muy sencillo, lo interesante es saberlo expresar en terminos de un problema de optmización no lineal. En una futura publicación añadiré el efecto que tienen las pérdidas por transmisión.&lt;/p&gt;
 &lt;/div&gt;</summary><category term="cvxopt"></category><category term="power systems"></category><category term="python"></category><category term="optimzation"></category></entry></feed>

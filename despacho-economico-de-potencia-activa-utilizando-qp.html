@@ -1662,14 +1662,64 @@ pre {
 <p>El despacho económico de generación ha sido un problema clásico de la Ingeniería Eléctrica. Por lo mismo existen diferentes tipos de despacho, de acuerdo a las consideraciones que se tomen del sistema de potencia, y a su vez también existen muchos métodos de solución.</p>
 <p>El despacho que se mostrará a continuación es un depacho de generación ideal, donde no existen pérdidas en la red, por lo tanto se tiene un solo nodo generación-carga. El problema es descrito como una problema de optimización no lineal:</p>
 <p>Minimizar: <span class="math">\[\sum_{k=1}^n C_k \left( P_{\text{G}k} \right)\]</span> Sujeto a: <span class="math">\[\sum_{k=1}^n P_{\text{G}k} = P_\text D\]</span> <span class="math">\[P_{\text G k} \leq P_{\text{Gmax} k}, k=1:n\]</span> <span class="math">\[P_{\text G k} \geq P_{\text{Gmin} k}, k=1:n\]</span></p>
-<p>La función a optimizar tiene el término <span class="math">\(C_k\left(P_{\text G k}\right)\)</span> que no no lineal conveox de segundo grado: <span class="math">\[C_k\left(P_{\text G k}\right) = P_{\text G k}c_k^2 + P_{\text G k}b_k + c_k\]</span></p>
-<p>La curva que genera dicha función para cada generador se llama curva entrada-salida: <img src="/files/images/curva_entrada_salida.png" title="Curva entrada-salida" alt="Curva entrada-salida" /></p>
+<p>La función a optimizar tiene el término <span class="math">\(C_k\left(P_{\text G k}\right)\)</span> no lineal convexo de segundo grado: <span class="math">\[C_k\left(P_{\text G k}\right) = P_{\text G k}c_k^2 + P_{\text G k}b_k + a_k\]</span></p>
+<p>Para una mejor comprehensión de cómo se obtiene esta ecuación pueden consultar el libro de <a href="http://books.google.com.mx/books?id=ItuC5oZ-16QC&amp;lpg=PP1&amp;dq=wollenberg&amp;hl=es&amp;pg=PP1#v=onepage&amp;q=wollenberg&amp;f=false" title="Libro Wollenberg">Wollenberg</a></p>
 <p>La primera restricción forza a que el total de la generación sea la demanda que se tiene que curbrir. Las últimas dos restricciones fijan los límites de operación de cada generador.</p>
+<h1 id="ejemplo">Ejemplo</h1>
+<p>El ejemplo a resolver es un sistema de tres máquinas con los siguientes coeficientes de la función de costo:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Unidad</th>
+<th align="left">a</th>
+<th align="left">b</th>
+<th align="left">c</th>
+<th align="left"><span class="math">\(P_\text{Gmin}\)</span></th>
+<th align="left"><span class="math">\(P_\text{Gmax}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">G1</td>
+<td align="left">561</td>
+<td align="left">7.92</td>
+<td align="left">0.00154</td>
+<td align="left">150 MW</td>
+<td align="left">600 MW</td>
+</tr>
+<tr class="even">
+<td align="left">G2</td>
+<td align="left">310</td>
+<td align="left">7.8</td>
+<td align="left">0.002</td>
+<td align="left">100 MW</td>
+<td align="left">400 MW</td>
+</tr>
+<tr class="odd">
+<td align="left">G3</td>
+<td align="left">78</td>
+<td align="left">8</td>
+<td align="left">0.005</td>
+<td align="left">50 MW</td>
+<td align="left">200 MW</td>
+</tr>
+</tbody>
+</table>
+<p>Donde la demanda que se tiene que satisfacer es de 850 MW.</p>
+<p>El problema de optimización para este caso en particular sería:</p>
+<p>Minimizar</p>
+<p><span class="math">\[ 0.00154 P_{\text G 1}^2 + 7.92 P_{\text G 1} + 561 + 0.002 P_{\text G 2}^2 + 7.8 P_{\text G 2} + 310 + 0.005 P_{\text G 3}^2 + 8P_{\text G 3} + 78\]</span></p>
+<p>Sujeto a:</p>
+<p><span class="math">\[P_{\text G 1} \leq 600\]</span> <span class="math">\[-P_{\text G 1} \leq -150\]</span> <span class="math">\[P_{\text G 2} \leq 400\]</span> <span class="math">\[-P_{\text G 2} \leq -100\]</span> <span class="math">\[P_{\text G 3} \leq 200\]</span> <span class="math">\[-P_{\text G 3} \leq -50\]</span> <span class="math">\[ P_{\text G 1} + P_{\text G 2} + P_{\text G 3} = 850\]</span></p>
+<p>Para la solución de este tipo de problemas existen varios métodos. Uno que personalmente he implementado de forma sencilla es utilizando la función Lagrangiana descrito en <a href="http://books.google.com.mx/books?id=rJ5d7DW2t4UC&amp;lpg=PP1&amp;dq=mathematics%20for%20economists%20Malcolm%20Pemberton&amp;hl=es&amp;pg=PP1#v=onepage&amp;q=mathematics%20for%20economists%20Malcolm%20Pemberton&amp;f=false" title="Libro">Mathematics for Economists</a>. Para este ejemplo no nos vamos a complicar y vamos a utilizar un &quot;solver&quot; ya hecho. En este caso la librería que se va a usar es <a href="http://cvxopt.org/">CVXOPT</a>, la cual es una librería de optimización convexa realmente buena. Yo la he usado mucho para el manejo matricial ya que tiene interacción directa con algunas librerías de álgebra lineal (LAPACK, BLAS, UMFPACK) y en muchos casos el computo matricial ha sido más rápido que numpy/scipy.</p>
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Comenzamos importando la librería necesaria:</p>
 </div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[59]:
+In&nbsp;[1]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="kn">from</span> <span class="nn">cvxopt</span> <span class="kn">import</span> <span class="n">matrix</span><span class="p">,</span> <span class="n">solvers</span><span class="p">,</span> <span class="n">spdiag</span><span class="p">,</span> <span class="n">spmatrix</span>
@@ -1682,28 +1732,13 @@ In&nbsp;[59]:
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[60]:
+In&nbsp;[2]:
 </div>
 <div class="input_area box-flex1">
-<div class="highlight-ipynb"><pre class="ipynb"><span class="o">%</span><span class="k">qtconsole</span>
-</pre></div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell vbox">
-<div class="input hbox">
-<div class="prompt input_prompt">
-In&nbsp;[75]:
-</div>
-<div class="input_area box-flex1">
-<div class="highlight-ipynb"><pre class="ipynb"><span class="n">a</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="mi">510</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">78</span><span class="p">],</span> <span class="n">tc</span><span class="o">=</span><span class="s">&#39;d&#39;</span><span class="p">)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="mf">7.2</span><span class="p">,</span> <span class="mf">7.8</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="mf">0.0014</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">])</span>
-<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*=</span><span class="mf">1.1</span>
-<span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*=</span><span class="mf">1.1</span>
-<span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*=</span><span class="mf">1.1</span>
+<div class="highlight-ipynb"><pre class="ipynb"><span class="n">a</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="mi">561</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">78</span><span class="p">],</span> <span class="n">tc</span><span class="o">=</span><span class="s">&#39;d&#39;</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="mf">7.92</span><span class="p">,</span> <span class="mf">7.8</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="n">tc</span><span class="o">=</span><span class="s">&#39;d&#39;</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="mf">0.00154</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">],</span> <span class="n">tc</span><span class="o">=</span><span class="s">&#39;d&#39;</span><span class="p">)</span>
+<span class="c"># numero de generadores</span>
 <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </pre></div>
 
@@ -1711,10 +1746,13 @@ In&nbsp;[75]:
 </div>
 
 </div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Definimos límites y la potencia demandada:</p>
+</div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[76]:
+In&nbsp;[3]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="n">Pgmax</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="mi">600</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">200</span><span class="p">])</span>
@@ -1726,47 +1764,58 @@ In&nbsp;[76]:
 </div>
 
 </div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Teniendo los datos definidos en forma matricial necesitamos expresar el problema de la forma que utiliza nuestro solver de optimización cuadrática:<br />Minimizar: <span class="math">\[f(\mathbf{x}) = \tfrac{1}{2} \mathbf{x}^T Q\mathbf{x} + \mathbf{p}^T \mathbf{x}\]</span> Sujeto a: <span class="math">\[ A\mathbf{x} \leq \mathbf b\]</span> <span class="math">\[E\mathbf{x} = \mathbf d \]</span></p>
+<p>El primer término interesante es la matriz <span class="math">\(Q\)</span>, que es una matriz Hessiana de la función de costo. Por lo tanto se debe derivar cada función de costo de las variables (<span class="math">\(P_\text{G k}\)</span>). Dado que no existen combinaciones entre diferentes variables, la matriz <span class="math">\(Q\)</span> es diagonal y se calcula:</p>
+<p><span class="math">\[Q = 2 * \left[ c \right]\]</span> donde:<br /><span class="math">\(\left[ c \right]\)</span> es una matriz diagonal con el vector <span class="math">\(c\)</span> sobre la diagonal.</p>
+<p>El vector <span class="math">\(\mathbf{p}\)</span> son los coeficientes de los términos de primer orden de la función de costo. Para nuestro caso es:</p>
+<p><span class="math">\[\mathbf{p} = b\]</span></p>
+<p>La matriz <span class="math">\(A\)</span> es la matriz de restricciones de desigualdad, que para nuestro caso se va a encargar de fijar los límites de generación: <span class="math">\[A= \left[ I ; -I \right]\]</span></p>
+<p>El vector <span class="math">\(\mathbf b\)</span> contiene los valores a fijar en las desigualdades. Para nuestro caso son los límites de generación <span class="math">\[\mathbf b = \left[ P_\text{Gmax}; P_\text{Gmin} \right]\]</span></p>
+<p>Por último se definen las restricciones de igualdad, en las cuales especificamos que la potencia generada debe ser igual a la potencia demandada:</p>
+<p><span class="math">\[E =\left[ 1 1 1\right]\]</span> <span class="math">\[\mathbf d = \left[ 850 \right] \]</span></p>
+</div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[77]:
+In&nbsp;[4]:
 </div>
 <div class="input_area box-flex1">
-<div class="highlight-ipynb"><pre class="ipynb"><span class="c"># Arreglode maquinas</span>
+<div class="highlight-ipynb"><pre class="ipynb"><span class="c"># Conjunto de maquinas</span>
 <span class="n">maq</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 
 <span class="c"># Matriz Hessiana</span>
 <span class="n">Q</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">spdiag</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 <span class="c"># Terminos de primer orden</span>
 <span class="n">p</span> <span class="o">=</span> <span class="n">b</span>
-<span class="c"># Restriccion para forzar a que sean positivos</span>
-<span class="n">G1</span> <span class="o">=</span>  <span class="n">spmatrix</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">maq</span><span class="p">,</span> <span class="n">maq</span><span class="p">)</span>
-<span class="n">h1</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tc</span><span class="o">=</span><span class="s">&#39;d&#39;</span><span class="p">)</span>
 <span class="c"># Restriccion para forzar el limite superior</span>
-<span class="n">G2</span> <span class="o">=</span> <span class="n">spmatrix</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">maq</span><span class="p">,</span> <span class="n">maq</span><span class="p">)</span>
-<span class="n">h2</span> <span class="o">=</span> <span class="n">Pgmax</span>
+<span class="n">A1</span> <span class="o">=</span> <span class="n">spmatrix</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">maq</span><span class="p">,</span> <span class="n">maq</span><span class="p">)</span>
+<span class="n">bb1</span> <span class="o">=</span> <span class="n">Pgmax</span>
 <span class="c"># Restriccion para forzar el limite inferior</span>
-<span class="n">G3</span> <span class="o">=</span> <span class="o">-</span><span class="n">G2</span>
-<span class="n">h3</span> <span class="o">=</span> <span class="n">Pgmin</span>
-<span class="c"># Se juntan todas las restricciones</span>
-<span class="n">G</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="n">G1</span><span class="p">,</span> <span class="n">G2</span><span class="p">,</span> <span class="n">G3</span><span class="p">])</span>
-<span class="n">h</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">,</span> <span class="n">h3</span><span class="p">])</span>
-
-<span class="n">A</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">tc</span><span class="o">=</span><span class="s">&#39;d&#39;</span><span class="p">)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">Pd</span><span class="p">)</span>
+<span class="n">A2</span> <span class="o">=</span> <span class="o">-</span><span class="n">A1</span>
+<span class="n">bb2</span> <span class="o">=</span> <span class="n">Pgmin</span>
+<span class="c"># Se juntan todas las restricciones de desigualdad</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="n">A1</span><span class="p">,</span> <span class="n">A2</span><span class="p">])</span>
+<span class="n">bb</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="n">bb1</span><span class="p">,</span> <span class="n">bb2</span><span class="p">],</span> <span class="n">tc</span><span class="o">=</span><span class="s">&#39;d&#39;</span><span class="p">)</span>
+<span class="c"># Restriccion de igualdad</span>
+<span class="n">E</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">tc</span><span class="o">=</span><span class="s">&#39;d&#39;</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">Pd</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 
 </div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Resolvemos usando QP (quadratic programming) de CVXOPT:</p>
+</div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[78]:
+In&nbsp;[5]:
 </div>
 <div class="input_area box-flex1">
-<div class="highlight-ipynb"><pre class="ipynb"><span class="n">sol</span> <span class="o">=</span> <span class="n">solvers</span><span class="o">.</span><span class="n">qp</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<div class="highlight-ipynb"><pre class="ipynb"><span class="n">sol</span> <span class="o">=</span> <span class="n">solvers</span><span class="o">.</span><span class="n">qp</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">bb</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1780,13 +1829,15 @@ In&nbsp;[78]:
 <div class="box-flex1 output_subarea output_stream output_stdout">
 <pre>
      pcost       dcost       gap    pres   dres
- 0:  7.3201e+03 -3.3872e+05  4e+05  1e-01  6e+01
- 1:  7.2813e+03 -8.2900e+03  2e+04  1e-03  6e-01
- 2:  7.2808e+03  6.7863e+03  5e+02  4e-05  2e-02
- 3:  7.2464e+03  7.0600e+03  2e+02  2e-16  4e-16
- 4:  7.2381e+03  7.2227e+03  2e+01  2e-16  3e-17
- 5:  7.2380e+03  7.2378e+03  2e-01  2e-16  5e-17
- 6:  7.2380e+03  7.2380e+03  2e-03  2e-16  1e-16
+ 0:  7.2896e+03 -2.1278e+05  2e+05  3e-02  1e-14
+ 1:  7.2809e+03  4.3381e+03  3e+03  3e-04  7e-15
+ 2:  7.2801e+03  6.8779e+03  4e+02  4e-05  1e-15
+ 3:  7.3993e+03  6.3104e+03  1e+03  2e-05  6e-16
+ 4:  7.2817e+03  6.8744e+03  4e+02  1e-16  2e-16
+ 5:  7.2399e+03  7.1891e+03  5e+01  1e-16  2e-16
+ 6:  7.2380e+03  7.2361e+03  2e+00  2e-16  9e-17
+ 7:  7.2380e+03  7.2379e+03  2e-02  1e-16  2e-16
+ 8:  7.2380e+03  7.2380e+03  2e-04  3e-16  1e-16
 Optimal solution found.
 
 </pre>
@@ -1797,10 +1848,13 @@ Optimal solution found.
 </div>
 
 </div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Imprimimos la solución</p>
+</div>
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[79]:
+In&nbsp;[6]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight-ipynb"><pre class="ipynb"><span class="k">print</span> <span class="n">sol</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span>
@@ -1829,50 +1883,31 @@ In&nbsp;[79]:
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell vbox">
-<div class="input hbox">
-<div class="prompt input_prompt">
-In&nbsp;[48]:
-</div>
-<div class="input_area box-flex1">
-<div class="highlight-ipynb"><pre class="ipynb">
-</pre></div>
-
-</div>
-</div>
-
-<div class="vbox output_wrapper">
-<div class="output vbox">
-
-
-<div class="hbox output_area"><div class="prompt output_prompt">
-    Out[48]:</div>
-<div class="box-flex1 output_subarea output_pyout">
-
-
-<pre>
-850.0000000000001
-</pre>
-
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell vbox">
-<div class="input hbox">
-<div class="prompt input_prompt">
-In&nbsp;[]:
-</div>
-<div class="input_area box-flex1">
-<div class="highlight-ipynb"><pre class="ipynb">
-</pre></div>
-
-</div>
-</div>
-
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>La cual nos indica que el despacho óptimo de generación queda de la siguiente forma:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Unidad</th>
+<th align="left">Potencia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">G1</td>
+<td align="left">398 MW</td>
+</tr>
+<tr class="even">
+<td align="left">G2</td>
+<td align="left">337 MW</td>
+</tr>
+<tr class="odd">
+<td align="left">G3</td>
+<td align="left">115 MW</td>
+</tr>
+</tbody>
+</table>
+<p>Espero les haya servido el ejemplo. En sí el problema es muy sencillo, lo interesante es saberlo expresar en terminos de un problema de optmización no lineal. En una futura publicación añadiré el efecto que tienen las pérdidas por transmisión.</p>
 </div>
     </div><!-- /.entry-content -->
     
